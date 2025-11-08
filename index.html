@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yautja Translator - English to Predator Language</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0f0f 50%, #0f1a0f 100%);
+            color: #00ff00;
+            min-height: 100vh;
+            padding: 20px;
+            background-attachment: fixed;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 2px solid #00ff00;
+            margin-bottom: 40px;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+        }
+
+        .subtitle {
+            color: #00aa00;
+            font-size: 1.1em;
+            letter-spacing: 2px;
+        }
+
+        .translator-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .input-section, .output-section {
+            background: rgba(0, 255, 0, 0.05);
+            border: 2px solid #00ff00;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+
+        .section-title {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            text-align: center;
+            color: #00ff00;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 200px;
+            background: #000000;
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            border-radius: 5px;
+            resize: vertical;
+            box-shadow: inset 0 0 10px rgba(0, 255, 0, 0.2);
+        }
+
+        textarea:focus {
+            outline: none;
+            box-shadow: inset 0 0 10px rgba(0, 255, 0, 0.4), 0 0 10px rgba(0, 255, 0, 0.5);
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        button {
+            background: #000000;
+            color: #00ff00;
+            border: 2px solid #00ff00;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            font-family: 'Courier New', monospace;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+        }
+
+        button:hover {
+            background: #00ff00;
+            color: #000000;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.6);
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .dictionary {
+            background: rgba(0, 255, 0, 0.05);
+            border: 2px solid #00ff00;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .dictionary h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #00ff00;
+            letter-spacing: 2px;
+        }
+
+        .dict-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .dict-item {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 3px solid #00ff00;
+        }
+
+        .dict-item span:first-child {
+            color: #00aa00;
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00; }
+            50% { text-shadow: 0 0 20px #00ff00, 0 0 30px #00ff00, 0 0 40px #00ff00; }
+        }
+
+        @media (max-width: 768px) {
+            .translator-box {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .button-container {
+                flex-direction: column;
+            }
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #00ff00;
+            color: #00aa00;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚔️ YAUTJA TRANSLATOR ⚔️</h1>
+            <p class="subtitle">English to Predator Language Converter</p>
+        </header>
+
+        <div class="translator-box">
+            <div class="input-section">
+                <h2 class="section-title">🌍 English (Ooman-di)</h2>
+                <textarea id="englishInput" placeholder="Enter English text here..."></textarea>
+            </div>
+
+            <div class="output-section">
+                <h2 class="section-title">👽 Yautja</h2>
+                <textarea id="yautjaOutput" placeholder="Yautja translation will appear here..." readonly></textarea>
+            </div>
+        </div>
+
+        <div class="button-container">
+            <button onclick="translateToYautja()">⚡ TRANSLATE ⚡</button>
+            <button onclick="clearText()">🗑️ CLEAR 🗑️</button>
+            <button onclick="copyToClipboard()">📋 COPY 📋</button>
+        </div>
+
+        <div class="dictionary">
+            <h2>📖 YAUTJA DICTIONARY</h2>
+            <div class="dict-grid">
+                <div class="dict-item"><span>Hello</span> → <strong>Thar'n-dha</strong></div>
+                <div class="dict-item"><span>Goodbye</span> → <strong>Kwei-Bhu'ja</strong></div>
+                <div class="dict-item"><span>Friend</span> → <strong>Bhu'ja</strong></div>
+                <div class="dict-item"><span>Enemy</span> → <strong>Kiande</strong></div>
+                <div class="dict-item"><span>Hunt</span> → <strong>Gahn</strong></div>
+                <div class="dict-item"><span>Honor</span> → <strong>H'chak</strong></div>
+                <div class="dict-item"><span>Warrior</span> → <strong>Yautja</strong></div>
+                <div class="dict-item"><span>Human</span> → <strong>Ooman</strong></div>
+                <div class="dict-item"><span>Blood</span> → <strong>D'lexinex</strong></div>
+                <div class="dict-item"><span>Death</span> → <strong>Dtai'kai-dte</strong></div>
+                <div class="dict-item"><span>Fight</span> → <strong>Thwei</strong></div>
+                <div class="dict-item"><span>Kill</span> → <strong>Nau'ganu</strong></div>
+                <div class="dict-item"><span>Victory</span> → <strong>Zabin</strong></div>
+                <div class="dict-item"><span>Defeat</span> → <strong>Lu-ala</strong></div>
+                <div class="dict-item"><span>Brother</span> → <strong>Cetanu</strong></div>
+                <div class="dict-item"><span>Sister</span> → <strong>Thei-de</strong></div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>⚠️ For entertainment purposes only | Yautja language based on Predator universe lore ⚠️</p>
+        </div>
+    </div>
+
+    <script>
+        // Yautja dictionary with English to Yautja mappings
+        const yautjaDict = {
+            // Common words
+            'hello': "thar'n-dha",
+            'hi': "thar'n",
+            'goodbye': "kwei-bhu'ja",
+            'bye': "kwei",
+            'yes': "sei-i",
+            'no': "n'ithya",
+            'thank': "payaya",
+            'thanks': "payaya",
+            'please': "gkyaun",
+            'sorry': "ki'cte",
+            
+            // People
+            'human': 'ooman',
+            'humans': 'ooman-di',
+            'warrior': 'yautja',
+            'warriors': 'yautja-di',
+            'friend': "bhu'ja",
+            'enemy': 'kiande',
+            'brother': 'cetanu',
+            'sister': "thei-de",
+            'mother': "pauk-de",
+            'father': "pauk",
+            'child': "sain'ja",
+            
+            // Actions
+            'hunt': 'gahn',
+            'hunting': "gahn-thwei",
+            'kill': "nau'ganu",
+            'fight': 'thwei',
+            'die': "dtai'kai-dte",
+            'live': "sa'ankua",
+            'run': "grek",
+            'see': "m-di",
+            'look': "m-di-h'ka",
+            'speak': "yin'tekai",
+            'listen': "bpi-de",
+            
+            // Concepts
+            'honor': "h'chak",
+            'blood': "d'lexinex",
+            'death': "dtai'kai-dte",
+            'life': "sa'an",
+            'victory': 'zabin',
+            'defeat': 'lu-ala',
+            'glory': "h'dlak",
+            'courage': "thwei-kahl",
+            'respect': "pauk-te",
+            'fear': "hulij-bpe",
+            
+            // Objects/Things
+            'weapon': "ki'cti-pa",
+            'blade': "wristblades",
+            'ship': "kehrite",
+            'trophy': "jehdin",
+            'skull': "dha'je-kainde",
+            'mask': "bio-helmet",
+            'clan': "bloode",
+            
+            // Nature
+            'water': "dachande",
+            'fire': "kv'var",
+            'sky': "setg'in",
+            'earth': "kanda",
+            'moon': "bhu'ja-le",
+            'sun': "setg'in-thwei",
+            
+            // Adjectives
+            'good': 'amedha',
+            'bad': "kiande-amedha",
+            'strong': "c'jit",
+            'weak': "hulij-bpe-de",
+            'brave': "thwei-de",
+            'great': "ahnna",
+            'small': "jehdin-de",
+            'big': "ahnna-de",
+            
+            // Numbers
+            'one': "san",
+            'two': "ghe",
+            'three': "thre'ka",
+            'four': "fo'ra",
+            'five': "fi'ka",
+            
+            // Common phrases
+            'i am': "si h'ka",
+            'you are': "ka'rik-na",
+            'we are': "kai'de h'ka",
+            'what': "awu'asa",
+            'where': "awu'ke",
+            'when': "awu'ti",
+            'why': "awu'zen",
+            'how': "awu'nan",
+        };
+
+        // Function to convert text to Yautja-style
+        function convertToYautjaStyle(word) {
+            // Add clicks and harsh sounds
+            const clicks = ["'", "-", "h'", "th'", "bh'"];
+            const yautjaConsonants = ['k', 'th', 'gh', 'ch', 'x', 'z', 'bh', 'dh'];
+            
+            let result = word.toLowerCase();
+            
+            // Replace vowel combinations
+            result = result.replace(/oo/g, 'u');
+            result = result.replace(/ee/g, 'i');
+            result = result.replace(/ea/g, 'ia');
+            result = result.replace(/ou/g, "u'a");
+            
+            // Add Yautja characteristics
+            result = result.replace(/s/g, 'z');
+            result = result.replace(/c(?=[eiy])/g, "k'");
+            result = result.replace(/ph/g, 'f');
+            
+            // Add occasional clicks
+            if (result.length > 4 && Math.random() > 0.5) {
+                const pos = Math.floor(result.length / 2);
+                result = result.slice(0, pos) + "'" + result.slice(pos);
+            }
+            
+            // Add suffix for plural/emphasis
+            if (word.endsWith('s') && !yautjaDict[word]) {
+                result = result.slice(0, -1) + '-di';
+            }
+            
+            return result;
+        }
+
+        function translateToYautja() {
+            const input = document.getElementById('englishInput').value;
+            if (!input.trim()) {
+                alert('Please enter some text to translate!');
+                return;
+            }
+
+            // Split into sentences
+            const sentences = input.split(/([.!?]+)/);
+            let translated = '';
+
+            sentences.forEach(sentence => {
+                if (sentence.match(/[.!?]+/)) {
+                    translated += sentence;
+                    return;
+                }
+
+                // Split into words
+                const words = sentence.toLowerCase().split(/\s+/);
+                const translatedWords = words.map(word => {
+                    // Remove punctuation for lookup
+                    const cleanWord = word.replace(/[^\w\s'-]/g, '');
+                    
+                    if (!cleanWord) return word;
+
+                    // Check dictionary first
+                    if (yautjaDict[cleanWord]) {
+                        return yautjaDict[cleanWord];
+                    }
+
+                    // Check for phrases (two words)
+                    const twoWordPhrase = words.slice(words.indexOf(word), words.indexOf(word) + 2).join(' ');
+                    if (yautjaDict[twoWordPhrase]) {
+                        return yautjaDict[twoWordPhrase];
+                    }
+
+                    // Convert to Yautja style
+                    return convertToYautjaStyle(cleanWord);
+                });
+
+                translated += translatedWords.join(' ') + ' ';
+            });
+
+            document.getElementById('yautjaOutput').value = translated.trim();
+        }
+
+        function clearText() {
+            document.getElementById('englishInput').value = '';
+            document.getElementById('yautjaOutput').value = '';
+        }
+
+        function copyToClipboard() {
+            const output = document.getElementById('yautjaOutput');
+            if (!output.value) {
+                alert('Nothing to copy! Translate some text first.');
+                return;
+            }
+            
+            output.select();
+            document.execCommand('copy');
+            
+            // Visual feedback
+            const originalBg = output.style.background;
+            output.style.background = 'rgba(0, 255, 0, 0.2)';
+            setTimeout(() => {
+                output.style.background = originalBg;
+            }, 200);
+            
+            alert('Yautja text copied to clipboard!');
+        }
+
+        // Real-time translation option (optional)
+        document.getElementById('englishInput').addEventListener('input', function() {
+            // Uncomment the line below for real-time translation
+            // translateToYautja();
+        });
+    </script>
+</body>
+</html>
